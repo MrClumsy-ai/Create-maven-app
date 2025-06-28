@@ -7,6 +7,10 @@ contains_spaces() {
     [[ "$1" =~ [[:space:]] ]]
 }
 
+contains_dashes() {
+    [[ "$1" == *"-"* ]]
+}
+
 while getopts "hn:c:" flag; do
     case $flag in
         h)
@@ -21,6 +25,9 @@ while getopts "hn:c:" flag; do
             if contains_spaces "$name"; then
                 echo "Name cannot contain spaces"
                 exit 1;
+            elif contains_dashes "$name"; then
+                echo "Name cannot contain dashes"
+                exit 1;
             elif [ "$name" = "test" ]; then
                 echo "The name cannot be 'test'"
                 exit 1
@@ -30,6 +37,9 @@ while getopts "hn:c:" flag; do
             company=$OPTARG
             if contains_spaces "$company"; then
                 echo "Company cannot contain spaces"
+                exit 1;
+            elif contains_dashes "$company"; then
+                echo "Company cannot contain dashes"
                 exit 1;
             elif [ "$company" = "test" ]; then
                 echo "The company name cannot be 'test'"
