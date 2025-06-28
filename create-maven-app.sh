@@ -1,7 +1,7 @@
 #!/bin/bash
 
 name="my-app"
-company="awesomecompany"
+company="mycompany"
 
 while getopts "hn:c:" flag; do
     case $flag in
