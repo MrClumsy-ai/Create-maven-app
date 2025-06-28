@@ -33,4 +33,4 @@ if [ "$company" = "test" ]; then
     exit 1
 fi
 
-# mvn archetype:generate -DgroupId=com.$company.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
+mvn archetype:generate -DgroupId=com.$name.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
