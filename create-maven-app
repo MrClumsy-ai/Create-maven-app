@@ -25,9 +25,6 @@ while getopts "hn:c:" flag; do
             if contains_spaces "$name"; then
                 echo "Name cannot contain spaces"
                 exit 1;
-            elif contains_dashes "$name"; then
-                echo "Name cannot contain dashes"
-                exit 1;
             elif [ "$name" = "test" ]; then
                 echo "The name cannot be 'test'"
                 exit 1
@@ -56,4 +53,4 @@ done
 echo "Name = $name"
 echo "Company = $company"
 
-mvn archetype:generate -DgroupId=com.$name.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
+mvn archetype:generate -DgroupId=com.$company.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
