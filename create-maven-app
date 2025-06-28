@@ -3,34 +3,47 @@
 name="my-app"
 company="mycompany"
 
+contains_spaces() {
+    [[ "$1" =~ [[:space:]] ]]
+}
+
 while getopts "hn:c:" flag; do
     case $flag in
         h)
-            echo "program -n name"
+            echo "create-maven-app help"
+            echo "-h: help"
+            echo "-n [name of the project (default: my-app)]: set the name"
+            echo "-c [name of the company (default: mycompany)]: set the company name"
+            exit 0
             ;;
         n)
             name=$OPTARG
+            if contains_spaces "$name"; then
+                echo "Name cannot contain spaces"
+                exit 1;
+            elif [ "$name" = "test" ]; then
+                echo "The name cannot be 'test'"
+                exit 1
+            fi
             ;;
         c)
             company=$OPTARG
+            if contains_spaces "$company"; then
+                echo "Company cannot contain spaces"
+                exit 1;
+            elif [ "$company" = "test" ]; then
+                echo "The company name cannot be 'test'"
+                exit 1
+            fi
             ;;
         \?)
-            echo "invalid option: -$OPTARG" >&2
+            echo "Invalid option: -$OPTARG" >&2
             exit 1
             ;;
     esac
 done
 
-echo "name = $name"
-echo "company = $company"
-if [ "$name" = "test" ]; then
-    echo "the name cannot be 'test'"
-    exit 1
-fi
-
-if [ "$company" = "test" ]; then
-    echo "the name of the company cannot be 'test'"
-    exit 1
-fi
+echo "Name = $name"
+echo "Company = $company"
 
 mvn archetype:generate -DgroupId=com.$name.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
