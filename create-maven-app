@@ -54,5 +54,13 @@ echo "Name = $name"
 echo "Company = $company"
 echo "Creating maven project..."
 mvn archetype:generate -DgroupId=com.$company.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
+echo "Creating compile.sh"
+printf "#!/bin/bash\nmvn package" > $name/compile.sh
+echo "Creating run.sh file..."
+printf "#!/bin/bash\njava -cp target/%s-1.0-SNAPSHOT.jar com.%s.app.App" "$name" "$company" > $name/run.sh
 echo "Creating compile-and-run.sh file..."
-printf "#!/bin/bash\nmvn package\njava -cp target/%s-1.0-SNAPSHOT.jar com.%s.app.App" "$name" "$company" > $name/compile-and-run.sh
+printf "#!/bin/bash\nbash compile.sh\nbash run.sh" > $name/compile-and-run.sh
+echo "Creating git repository..."
+git -C "$name" init || { echo "Error: Git init failed"; exit 1; }
+echo "Creating .gitignore..."
+printf "target/*\n.mvn/*\n.settings/*\ncompile-and-run.sh" > $name/.gitignore
