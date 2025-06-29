@@ -52,5 +52,7 @@ done
 
 echo "Name = $name"
 echo "Company = $company"
-
+echo "Creating maven project..."
 mvn archetype:generate -DgroupId=com.$company.app -DartifactId=$name -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
+echo "Creating compile-and-run.sh file..."
+printf "#!/bin/bash\nmvn package\njava -cp target/%s-1.0-SNAPSHOT.jar com.%s.app.App" "$name" "$company" > $name/compile-and-run.sh
